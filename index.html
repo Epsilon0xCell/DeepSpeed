@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepSpeed: one model, sharded across the grid</title>
+<meta name="description" content="DeepSpeed, Microsoft's deep learning optimization library, drawn in Bauhaus geometry: ZeRO sharding, 3D parallelism, and training at the scale of billions and trillions of parameters.">
+<style>
+@font-face{font-family:'Sora';src:url('fonts/Sora-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Sora';src:url('fonts/Sora-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+@font-face{font-family:'Inter';src:url('fonts/Inter-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Inter';src:url('fonts/Inter-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+:root{--paper:#f4f0e4;--ink:#111111;--red:#d22630;--blue:#1d4e9e;--yellow:#f2b705}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6}
+h1,h2,h3{font-family:'Sora',sans-serif;line-height:1.05}
+.topbar{display:flex;height:26px;border-bottom:4px solid var(--ink)}
+.topbar i{flex:1}.topbar i:nth-child(1){background:var(--red)}.topbar i:nth-child(2){background:var(--blue)}.topbar i:nth-child(3){background:var(--yellow)}.topbar i:nth-child(4){background:var(--ink);flex:2}
+.grid{max-width:1120px;margin:0 auto;padding:0 5vw 64px}
+.hero{display:grid;grid-template-columns:1fr 300px;gap:0;border:4px solid var(--ink);margin-top:34px;background:var(--paper)}
+.hero .words{padding:38px 36px 34px;border-right:4px solid var(--ink)}
+.kicker{font-family:'Sora',sans-serif;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-size:.78rem}
+.kicker b{color:var(--red)}
+h1{font-size:4.4rem;font-weight:700;margin:14px 0 16px}
+.hero p{max-width:52ch;font-size:1.06rem}
+.hero .mark{position:relative;display:flex;align-items:center;justify-content:center;background:var(--yellow);min-height:300px}
+.hero .mark img{width:190px;height:190px;object-fit:contain;background:var(--paper);border:4px solid var(--ink);border-radius:50%;padding:10px}
+.btnrow{margin-top:24px}
+.btn{display:inline-block;font-family:'Sora',sans-serif;font-weight:700;text-decoration:none;color:var(--paper);background:var(--ink);padding:.6em 1.2em;margin:0 .5em .5em 0;border:3px solid var(--ink)}
+.btn.red{background:var(--red)}.btn.blue{background:var(--blue)}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.banner{margin-top:26px;border:4px solid var(--ink)}
+.banner img{width:100%;display:block}
+.banner figcaption{border-top:4px solid var(--ink);padding:10px 16px;font-size:.9rem;background:var(--paper)}
+.shapes{display:flex;gap:14px;margin:30px 0 0;align-items:flex-end}
+.shapes .sq{width:44px;height:44px;background:var(--red)}
+.shapes .ci{width:44px;height:44px;border-radius:50%;background:var(--blue)}
+.shapes .tr{width:0;height:0;border-left:26px solid transparent;border-right:26px solid transparent;border-bottom:44px solid var(--yellow)}
+.shapes .bar{flex:1;height:12px;background:var(--ink)}
+h2{font-size:2rem;margin-bottom:12px}
+section{margin-top:54px}
+.rule{height:4px;background:var(--ink);margin-bottom:22px}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:0;border:4px solid var(--ink)}
+.pillar{padding:26px 28px;border:2px solid var(--ink)}
+.pillar .glyph{width:38px;height:38px;margin-bottom:14px}
+.pillar h3{font-size:1.35rem;margin-bottom:8px}
+.pillar p{font-size:.98rem}
+.p-red .glyph{background:var(--red)}
+.p-blue .glyph{background:var(--blue);border-radius:50%}
+.p-yellow .glyph{width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-bottom:38px solid var(--yellow);background:none}
+.p-black .glyph{background:var(--ink);transform:rotate(45deg)}
+.blackbox{background:var(--ink);color:var(--paper);padding:30px 32px;margin-top:8px}
+.blackbox h2{color:var(--paper)}
+.blackbox h2 span{color:var(--yellow)}
+pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92rem;background:#000;border-left:12px solid var(--red);padding:16px 18px;overflow-x:auto;margin:14px 0;color:#f4f0e4}
+.blackbox p{color:#e8e2cf;max-width:66ch}
+table{border-collapse:collapse;width:100%;border:4px solid var(--ink)}
+th,td{border:2px solid var(--ink);padding:.55rem .8rem;text-align:left;vertical-align:top}
+th{font-family:'Sora',sans-serif;background:var(--blue);color:#fff}
+td:first-child{font-weight:700}
+.strip{display:flex;flex-wrap:wrap;border:4px solid var(--ink)}
+.strip div{flex:1 1 180px;padding:16px 18px;border:2px solid var(--ink);font-family:'Sora',sans-serif;font-weight:700}
+.strip div small{display:block;font-family:'Inter',sans-serif;font-weight:400;margin-top:4px}
+.introfig{margin-top:26px;border:4px solid var(--ink)}
+.introfig img{width:100%;display:block}
+.introfig figcaption{border-top:4px solid var(--ink);padding:10px 16px;font-size:.9rem}
+a{color:var(--blue)}
+footer{margin-top:64px;border-top:8px solid var(--ink);padding-top:20px;font-size:.92rem}
+footer p{margin-bottom:8px;max-width:72ch}
+@media(max-width:780px){.hero{grid-template-columns:1fr}.hero .words{border-right:none;border-bottom:4px solid var(--ink)}h1{font-size:2.9rem}.pillars{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="grid">
+<header class="hero">
+<div class="words">
+<p class="kicker">Microsoft <b>/</b> Deep learning optimization library</p>
+<h1>DeepSpeed</h1>
+<p>DeepSpeed is an easy to use deep learning optimization software suite for training and inference at scale. Its ZeRO optimizer shards model state across many GPUs, so dense or sparse models with billions or trillions of parameters can train and serve on hardware that could not hold them whole.</p>
+<p style="margin-top:12px">I keep this fork in my fleet as the reference copy of that work, and I built this page from the repository itself: the pillars, the install route, and the adoption list below are the repo's own.</p>
+<div class="btnrow"><a class="btn red" href="https://github.com/Epsilon0xCell/DeepSpeed">The repo</a><a class="btn blue" href="#install">Install</a><a class="btn" href="#pillars">The four pillars</a></div>
+</div>
+<div class="mark"><img src="assets/logo.png" alt="DeepSpeed logo: three offset squares in red, blue and yellow with a black speed arc"></div>
+</header>
+<figure class="banner"><img src="assets/banner.png" alt="A neural network lattice split into red, blue and yellow shards streaming into a grid of processor blocks"><figcaption>The naming picture for this fork: one network, split into shards, streaming along black channels into a grid of processors.</figcaption></figure>
+
+<section aria-label="At a glance">
+<div class="shapes" aria-hidden="true"><span class="sq"></span><span class="ci"></span><span class="tr"></span><span class="bar"></span></div>
+<h2 style="margin-top:18px">At a glance</h2>
+<table>
+<tr><th>Question</th><th>Answer</th></tr>
+<tr><td>What it is</td><td>A deep learning optimization library for distributed training and inference</td></tr>
+<tr><td>The key win</td><td>Train and inference dense or sparse models with billions or trillions of parameters, and scale to thousands of GPUs</td></tr>
+<tr><td>Who it is for</td><td>Researchers and practitioners training and serving large deep learning models</td></tr>
+<tr><td>Licence</td><td>Apache License 2.0, verified against the LICENSE file in this repo</td></tr>
+</table>
+</section>
+
+<section id="pillars">
+<div class="rule"></div>
+<h2>Four pillars, four shapes</h2>
+<div class="pillars">
+<div class="pillar p-red"><div class="glyph" aria-hidden="true"></div><h3>DeepSpeed Training</h3><p>The training pillar gathers ZeRO, 3D parallelism, DeepSpeed-MoE, and ZeRO-Infinity. ZeRO shards optimizer state, gradients, and parameters across the GPUs in a run, which is the move that lets one model live on many machines at once.</p></div>
+<div class="pillar p-blue"><div class="glyph" aria-hidden="true"></div><h3>DeepSpeed Inference</h3><p>The inference pillar combines tensor, pipeline, expert, and ZeRO parallelism with custom inference kernels, communication optimizations, and heterogeneous memory, aiming at low latency and high throughput for serving large models.</p></div>
+<div class="pillar p-yellow"><div class="glyph" aria-hidden="true"></div><h3>DeepSpeed Compression</h3><p>The compression pillar offers techniques researchers and practitioners can compose to shrink a model while it runs faster and costs less to serve. The README names ZeroQuant and XTC among the compression work included here.</p></div>
+<div class="pillar p-black"><div class="glyph" aria-hidden="true"></div><h3>DeepSpeed4Science</h3><p>The fourth pillar is an initiative from the DeepSpeed team at Microsoft: building system technology aimed at large scale scientific discovery, with its own tutorials and a white paper linked from the repo.</p></div>
+</div>
+<figure class="introfig"><img src="assets/intro.png" alt="DeepSpeed introductory artwork: colored shards of a model crossing a geometric field"><figcaption>Introductory artwork for this fork, in the same Bauhaus geometry as the banner.</figcaption></figure>
+</section>
+
+<section id="install">
+<div class="blackbox">
+<h2>Install, <span>the short route</span></h2>
+<p>PyTorch must be installed before DeepSpeed. The README recommends a PyTorch version of 1.9 or newer, ideally the latest stable release, plus a CUDA or ROCm compiler such as nvcc or hipcc for the C++ and CUDA extensions, which DeepSpeed calls its ops and builds just in time by default.</p>
+<pre>pip install deepspeed
+ds_report</pre>
+<p>The second command, ds_report, prints the DeepSpeed environment report: it validates the install and shows which extensions and ops your machine is compatible with. Hardware the project develops and tests against includes NVIDIA Pascal, Volta, Ampere, and Hopper GPUs, and AMD MI100 and MI200.</p>
+</div>
+</section>
+
+<section aria-label="Adoption">
+<div class="rule"></div>
+<h2>Trained with DeepSpeed</h2>
+<p style="max-width:68ch;margin-bottom:16px">The README keeps a list of large models trained with DeepSpeed. Four entries from that list, with the parameter counts the repo itself gives:</p>
+<div class="strip">
+<div>Megatron-Turing NLG<small>530B parameters</small></div>
+<div>BLOOM<small>176B parameters</small></div>
+<div>GLM<small>130B parameters</small></div>
+<div>GPT-NeoX<small>20B parameters</small></div>
+</div>
+<p style="margin-top:14px;font-size:.95rem">The same README notes integrations with Transformers, Accelerate, Lightning, MosaicML Composer, Determined, and MMEngine, each with its own documentation page.</p>
+</section>
+
+<footer>
+<p><a href="https://github.com/Epsilon0xCell/DeepSpeed">github.com/Epsilon0xCell/DeepSpeed</a> &nbsp; <a href="https://github.com/Epsilon0xCell">github.com/Epsilon0xCell</a></p>
+<p>DeepSpeed is an upstream Microsoft project, held in my fleet as a fork. Upstream files are untouched; this website folder and the gh-pages branch are my own addition to the fork. Licence: Apache License 2.0, from the LICENSE file in the repo.</p>
+<p>Colophon: this page is set in Sora (headings) and Inter (body), both SIL Open Font License 1.1, self-hosted in the site fonts folder with their licence texts. No external fonts or scripts are loaded.</p>
+<p>By Gavin Blacklock.</p>
+</footer>
+</div>
+</body>
+</html>
