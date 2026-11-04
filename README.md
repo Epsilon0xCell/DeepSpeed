@@ -1,14 +1,44 @@
 ![DeepSpeed banner](banner.png)
 
-<p align="center"><img src="logo.png" alt="DeepSpeed logo" width="200"></p>
+<div align="center">
 
-![DeepSpeed animated scene](assets-scene.svg)
+<img src="logo.png" alt="DeepSpeed logo" width="200">
 
-_Theme: Bauhaus geometric. One large model, split into red, blue, and yellow shards, streaming across many processors at speed._
+# DeepSpeed
 
-<p align="center"><img src="intro-banner.png" alt="DeepSpeed introduction, wordless" width="800"></p>
+DeepSpeed is an easy-to-use deep learning optimization software suite that powers unprecedented scale and speed for both training and inference.
 
-<p align="center"><img src="sep-heavy.svg" alt=""></p>
+</div>
+
+## At a Glance
+
+| Question | Answer |
+| --- | --- |
+| What it is | A deep learning optimization library for distributed training and inference |
+| Key win | Train and inference dense or sparse models with billions or trillions of parameters, and scale to thousands of GPUs |
+| Who it is for | Researchers and practitioners training and serving large deep learning models |
+
+## Contents
+
+- [Latest News](#latest-news)
+- [Extreme Speed and Scale for DL Training and Inference](#extreme-speed-and-scale-for-dl-training-and-inference)
+- [DeepSpeed's Four Innovation Pillars](#deepspeeds-four-innovation-pillars)
+- [DeepSpeed Software Suite](#deepspeed-software-suite)
+- [DeepSpeed Adoption](#deepspeed-adoption)
+- [Build Pipeline Status](#build-pipeline-status)
+- [Installation](#installation)
+- [Features](#features)
+- [Further Reading](#further-reading)
+- [Contributing](#contributing)
+- [Publications](#publications)
+- [Videos](#videos)
+- [Citation & License](#citation--license)
+
+<p align="center"><img src="docs/assets/images/3d-parallelism.png" alt="3D parallelism in DeepSpeed" width="800"></p>
+
+<p align="center"><em>3D parallelism in DeepSpeed, from the DeepSpeed documentation in this repository (docs/_tutorials/pipeline.md).</em></p>
+
+---
 
 [![License Apache 2.0](https://badgen.net/badge/license/apache2.0/blue)](https://github.com/deepspeedai/DeepSpeed/blob/master/LICENSE)
 [![PyPI version](https://badge.fury.io/py/deepspeed.svg)](https://pypi.org/project/deepspeed/)
@@ -157,6 +187,9 @@ DeepSpeed has been integrated with several different popular open-source DL fram
 | Misc | [![Formatting](https://github.com/deepspeedai/DeepSpeed/actions/workflows/formatting.yml/badge.svg?branch=master)](https://github.com/deepspeedai/DeepSpeed/actions/workflows/formatting.yml) [![pages-build-deployment](https://github.com/deepspeedai/DeepSpeed/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/deepspeedai/DeepSpeed/actions/workflows/pages/pages-build-deployment) [![Documentation Status](https://readthedocs.org/projects/deepspeed/badge/?version=latest)](https://deepspeed.readthedocs.io/en/latest/?badge=latest)[![python](https://github.com/deepspeedai/DeepSpeed/actions/workflows/python.yml/badge.svg?branch=master)](https://github.com/deepspeedai/DeepSpeed/actions/workflows/python.yml) |
 | Huawei Ascend NPU | [![Huawei Ascend NPU](https://github.com/Ascend/Ascend-CI/actions/workflows/deepspeed.yaml/badge.svg?branch=main)](https://github.com/Ascend/Ascend-CI/actions/workflows/deepspeed.yaml) |
 
+
+---
+
 # Installation
 
 The quickest way to get started with DeepSpeed is via pip, this will install
@@ -186,6 +219,9 @@ dynamically link them at runtime.
 | Intel       | Intel(R) Data Center GPU Max series | xpu              | Yes | Yes                |
 | Tecorigin   | Scalable Data Analytics Accelerator | sdaa             | Yes | No                 |
 
+<details>
+<summary>Install with pip (PyPI)</summary>
+
 ## PyPI
 We regularly push releases to [PyPI](https://pypi.org/project/deepspeed/) and encourage users to install from there in most cases.
 
@@ -204,6 +240,11 @@ If you would like to pre-install any of the DeepSpeed extensions/ops (instead
 of JIT compiling) or install pre-compiled ops via PyPI please see our [advanced
 installation instructions](https://www.deepspeed.ai/tutorials/advanced-install/).
 
+</details>
+
+<details>
+<summary>Install on Windows</summary>
+
 ## Windows
 Many DeepSpeed features are supported on Windows for both training and inference. You can read more about this in the original blog post [here](https://github.com/deepspeedai/DeepSpeed/tree/master/blogs/windows/08-2024/README.md). Among features that are currently not supported are async io (AIO) and GDS (which does not support Windows).
 1. Install PyTorch, such as pytorch 2.3+cu121.
@@ -211,9 +252,17 @@ Many DeepSpeed features are supported on Windows for both training and inference
 3. Launch Cmd console with Administrator permissions for creating required symlink folders and ensure MSVC tools are added to your PATH or launch the Developer Command Prompt for Visual Studio 2022 with administrator permissions.
 4. Run `build_win.bat` to build wheel in `dist` folder.
 
+</details>
+
+
+---
+
 # Features
 
 Please checkout [DeepSpeed-Training](https://www.deepspeed.ai/training), [DeepSpeed-Inference](https://www.deepspeed.ai/inference) and [DeepSpeed-Compression](https://www.deepspeed.ai/compression) pages for full set of features offered along each of these three pillars.
+
+
+---
 
 # Further Reading
 
@@ -228,6 +277,9 @@ All DeepSpeed documentation, tutorials, and blogs can be found on our website: [
 | [Tutorials](https://www.deepspeed.ai/tutorials/)                                               |  Tutorials                                   |
 | [Blogs](https://www.deepspeed.ai/posts/)                                                       |  Blogs                                   |
 
+
+
+---
 
 # Contributing
 DeepSpeed welcomes your contributions! Please see our
@@ -255,6 +307,9 @@ This project has adopted the [Microsoft Open Source Code of
 Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the
 [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
 [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+
+---
 
 # Publications
 1. Samyam Rajbhandari, Jeff Rasley, Olatunji Ruwase, Yuxiong He. (2019) ZeRO: memory optimizations toward training trillion parameter models. [arXiv:1910.02054](https://arxiv.org/abs/1910.02054) and [In Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC '20)](https://dl.acm.org/doi/10.5555/3433701.3433727).
@@ -296,6 +351,9 @@ Conduct](https://opensource.microsoft.com/codeofconduct/). For more information 
 
 
 
+
+---
+
 # Videos
 1. DeepSpeed KDD 2020 Tutorial
     1. [Overview](https://www.youtube.com/watch?v=CaseqC45DNc&list=PLa85ZdUjfWS21mgibJ2vCvLziprjpKoW0&index=29)
@@ -313,3 +371,11 @@ Conduct](https://opensource.microsoft.com/codeofconduct/). For more information 
     * [DeepSpeed: All the tricks to scale to gigantic models (Mark Saroufim)](https://www.youtube.com/watch?v=pDGI668pNg0)
     * [Turing-NLG, DeepSpeed and the ZeRO optimizer (Yannic Kilcher)](https://www.youtube.com/watch?v=tC01FRB0M7w)
     * [Ultimate Guide To Scaling ML Models (The AI Epiphany)](https://www.youtube.com/watch?v=hc0u4avAkuM)
+
+---
+
+# Citation & License
+
+For the papers behind DeepSpeed, see [Publications](#publications) above. If you use DeepSpeed, please cite the relevant paper from that list.
+
+DeepSpeed is released under the Apache 2.0 license. The full license text is in [LICENSE](LICENSE) in this repository.
