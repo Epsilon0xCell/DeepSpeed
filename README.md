@@ -1,3 +1,15 @@
+![DeepSpeed banner](banner.png)
+
+<p align="center"><img src="logo.png" alt="DeepSpeed logo" width="200"></p>
+
+![DeepSpeed animated scene](assets-scene.svg)
+
+_Theme: Bauhaus geometric. One large model, split into red, blue, and yellow shards, streaming across many processors at speed._
+
+<p align="center"><img src="intro-banner.png" alt="DeepSpeed introduction, wordless" width="800"></p>
+
+<p align="center"><img src="sep-heavy.svg" alt=""></p>
+
 [![License Apache 2.0](https://badgen.net/badge/license/apache2.0/blue)](https://github.com/deepspeedai/DeepSpeed/blob/master/LICENSE)
 [![PyPI version](https://badge.fury.io/py/deepspeed.svg)](https://pypi.org/project/deepspeed/)
 [![Downloads](https://static.pepy.tech/badge/deepspeed)](https://pepy.tech/project/deepspeed)
